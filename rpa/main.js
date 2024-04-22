@@ -25,11 +25,12 @@ class LinkedInJobsPage {
     } else {
       console.log("Botão de submit não encontrado");
     }
-    await this.page.waitForNavigation({ waitUntil: "networkidle2" });
+    // await this.page.waitForNavigation({ waitUntil: "networkidle2" });
   }
 
   async getJobsPage() {
-    await new Promise((resolve) => setTimeout(resolve, 40000));
+    console.log('Entering jobs page')
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     await this.page.goto("https://www.linkedin.com/jobs/");
   }
 
