@@ -1,10 +1,10 @@
 import express from "express";
-import controller from "./controller.js"
+import linkedin_scrapper from "./controller_linkedin.js"
 
 const router = express.Router();
 
 router
     .route("/linkedin_scrapper")
-    .get(controller);
+    .get(linkedin_scrapper);
 
 export default router;

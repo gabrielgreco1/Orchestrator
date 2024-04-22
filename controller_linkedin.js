@@ -1,10 +1,10 @@
 import run_automation from "./rpa/main.js";
 
-export default async function multas_01(req, res) {
+export default async function linkedin_scrapper(req, res) {
   try {
     run_automation(req.query.search);
   } catch (e) {
-    console.log("Erro na automação: ", e);
+    console.log(`Erro executar automação linkedin_scrapper `, e);
   }
   console.log("Automação executada");
 

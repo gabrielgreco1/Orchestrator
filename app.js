@@ -4,7 +4,6 @@ import router from './routes.js'
 const app = express()
 
 app.use((req, res, next) => {
-    req.teste = 'teste'
     next()
 })
 

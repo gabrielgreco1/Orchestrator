@@ -1,7 +1,6 @@
 import puppeteer from "puppeteer";
 import { config } from "dotenv";
 
-
 class LinkedInJobsPage {
   constructor(page) {
     this.page = page;
@@ -16,8 +15,8 @@ class LinkedInJobsPage {
   }
 
   async login() {
-    await this.page.type("#session_key", process.env.email);
-    await this.page.type("#session_password", process.env.password);
+    await this.page.type("#session_key", "gabrielargreco@gmail.com");
+    await this.page.type("#session_password", "Cs>lol123");
 
     // Use page.$x para selecionar o botão de submit via XPath
     const [submitButton] = await this.page.$x("//button[@type='submit']");
