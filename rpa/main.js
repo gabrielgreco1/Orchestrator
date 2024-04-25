@@ -2,8 +2,9 @@ import puppeteer from "puppeteer";
 import { config } from "dotenv";
 
 class LinkedInJobsPage {
-  constructor(page) {
+  constructor(page, browser) {
     this.page = page;
+    this.browser = browser
     this.searchInputSelector = "input.jobs-search-box__text-input";
     this.jobsLinkSelector =
       "a.global-nav__primary-link[data-test-app-aware-link][aria-current='page']";
@@ -15,23 +16,32 @@ class LinkedInJobsPage {
   }
 
   async login() {
-    await this.page.type("#session_key", "gabrielargreco@gmail.com");
-    await this.page.type("#session_password", "Cs>lol123");
-
-    // Use page.$x para selecionar o botão de submit via XPath
-    const [submitButton] = await this.page.$x("//button[@type='submit']");
-    if (submitButton) {
-      await submitButton.click();
-    } else {
-      console.log("Botão de submit não encontrado");
+    try {
+      await this.page.type("#session_key", "gabrielargreco@gmail.com");
+      await this.page.type("#session_password", "Cs>lol123");
+      await this.page.click(
+        ".btn-md.btn-primary.flex-shrink-0.cursor-pointer.sign-in-form__submit-btn--full-width"
+      );
+      await new Promise((resolve) => setTimeout(resolve, 20000));
+    } catch (err) {
+      await this.browser.close();
+      // let stack = err.stack
+      // err.message = 'Erro ao logar'
+      // err.stack = stack
+      throw err
+      // throw new Error('Erro ao logar automação pausada')
     }
-    // await this.page.waitForNavigation({ waitUntil: "networkidle2" });
   }
 
   async getJobsPage() {
-    console.log('Entering jobs page')
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    await this.page.goto("https://www.linkedin.com/jobs/");
+    try {
+      console.log("Entering jobs page");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await this.page.goto("https://www.linkedin.com/jobs/");
+    } catch (err) {
+      console.log("Erro ao tentar entrar no link de jobs: ", err);
+      console.log("Fechando automação..")
+    }
   }
 
   async inputSearchQuery(term) {
@@ -50,13 +60,13 @@ class LinkedInJobsPage {
 
   async scrollJobsContainer() {
     await this.page.evaluate((selector) => {
-        const scrollableContainer = document.querySelector(selector);
-        if (scrollableContainer) {
-            // Rola para o final do contêiner
-            scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
-        }
+      const scrollableContainer = document.querySelector(selector);
+      if (scrollableContainer) {
+        // Rola para o final do contêiner
+        scrollableContainer.scrollTop = scrollableContainer.scrollHeight;
+      }
     }, this.jobsContainerSelector);
-}
+  }
 
   async getJobsQuantity() {
     try {
@@ -108,18 +118,18 @@ class LinkedInJobsPage {
   }
 }
 
-export default async function run_automation(req) {
+export default async function run_automation() {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
-  const linkedinJobsPage = new LinkedInJobsPage(page);
+  const linkedinJobsPage = new LinkedInJobsPage(page, browser);
   await linkedinJobsPage.open();
   await linkedinJobsPage.login();
   await linkedinJobsPage.getJobsPage();
-  await linkedinJobsPage.inputSearchQuery(req);
-  console.log('Scrolling')
+  await linkedinJobsPage.inputSearchQuery('rpa');
+  console.log("Scrolling");
   await new Promise((resolve) => setTimeout(resolve, 2000));
   await linkedinJobsPage.scrollJobsContainer();
-  console.log('Scrolled')
+  console.log("Scrolled");
   await new Promise((resolve) => setTimeout(resolve, 5000));
   await linkedinJobsPage.getJobsQuantity();
   await linkedinJobsPage.scrapeJobs();
