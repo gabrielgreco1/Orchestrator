@@ -2,7 +2,7 @@ import pool from "./pool.js";
 
 export default async function createTable() {
   const queryText =
-    `CREATE TABLE linkedin_scrapper (
+    `CREATE TABLE LummaExecucoes (
       id SERIAL PRIMARY KEY,
       automacao VARCHAR(255) NOT NULL,
       data_hora_inicio TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

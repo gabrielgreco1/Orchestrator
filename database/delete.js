@@ -10,4 +10,4 @@ export default async function deleteData(id) {
     }
   };
   
-  deleteData('2')
+  deleteData('47')

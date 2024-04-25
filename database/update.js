@@ -1,9 +1,9 @@
 import pool from "./pool.js";
 
-export default async function updateData(id, status) {
-  const queryText = 'UPDATE linkedin_scrapper SET status = $1 WHERE id = $2'
+export default async function updateData(query) {
     try {
-      await pool.query(queryText, [status, id]);
+      await pool.query(query);
+      // await pool.query(setFinishTime, [hourDate, id]);
       console.log('Dados atualizados com sucesso.');
     } catch (err) {
       console.error('Erro ao atualizar dados:', err);
