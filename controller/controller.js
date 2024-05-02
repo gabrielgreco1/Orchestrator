@@ -1,4 +1,4 @@
-import run_automation from "../rpa/main.js";
+import multas01 from "../rpa/multas01.js";
 import start_automation from "../rpa/teste.js";
 import start from "./databaseController/insertStart.js";
 import {
@@ -8,14 +8,12 @@ import {
 import getStatus from "./databaseController/getLastStatus.js";
 
 export default async function getAutomation(req, res) {
-  const automationName = req.route.path.replace("/", "")
+  const automationName = req.route.path.replace("/", "");
   const status = await getStatus(automationName);
 
-  console.log(status)
+  console.log(status);
   if (status == "Em execução") {
-    console.log(
-      `A automação '${automationName}' já está em execução`
-    );
+    console.log(`A automação '${automationName}' já está em execução`);
     res.status(400).json({
       message: `A automação '${automationName}' já está em execução`,
     });
@@ -25,7 +23,7 @@ export default async function getAutomation(req, res) {
   console.log(`Iniciou a automação`);
   const id = await start(automationName);
 
-  run_automation()
+  multas01()
     .then(() => {
       console.log("Automação finalizada com sucesso");
       updateSuccess(id);
@@ -35,7 +33,10 @@ export default async function getAutomation(req, res) {
         message: err.message,
         stack: err.stack,
       };
-      console.error("ERRO AO EXECUTAR: ", errorDetails);
+      console.error(
+        `Erro durante a execução da automação ${automationName}: \n`,
+        errorDetails
+      );
       updateError(id);
     });
 

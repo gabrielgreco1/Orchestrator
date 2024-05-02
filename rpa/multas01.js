@@ -118,7 +118,7 @@ class LinkedInJobsPage {
   }
 }
 
-export default async function run_automation() {
+export default async function multas01() {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   const linkedinJobsPage = new LinkedInJobsPage(page, browser);
