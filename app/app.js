@@ -1,8 +1,10 @@
 import express from 'express'
-import router from '../route/routes.js'
+import routerMultas from '../route/routesMultas.js'
 
 const app = express()
 
-app.use('/automation/', router)
+app.use('/automation/multas', routerMultas)
+// app.use('/automation/frotas', routerFrotas)
+// app.use('/automation/financeiro', routerFin)
 
 export default app
