@@ -1,0 +1,3 @@
+modularizar erros e sucessos de execução 
+rota pra verificar automações que tão rodando 
+rota pra verificar automações que rodaram hoje

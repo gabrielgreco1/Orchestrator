@@ -1,14 +1,15 @@
 import start from "./databaseController/insertStart.js";
 import { startAutomation as multas01 } from "../../Multas/Multas_01-Validar-dados-Arval/teste.js";
-import { startAutomation as multas01_2 } from "../../Multas/Multas_01.2-Validar-dados-Arval/teste.js";
-import { RunAtomation as multas02 } from "../../Multas/Multas_02-Busca-AIT-originaria-no-DNIT/main.js";
+// import { startAutomation as multas01_2 } from "../../Multas/Multas_01.2-Validar-dados-Arval/teste.js";
+// import { RunAtomation as multas02 } from "../../Multas/Multas_02-Busca-AIT-originaria-no-DNIT/main.js";
+import formatDate from "../utils/formatDate.js"
 import { updateSuccess, updateError } from "./databaseController/updateFinal.js";
 import getStatus from "./databaseController/getLastStatus.js";
 
 const automationFunctions = {
-  multas01,
-  multas01_2,
-  multas02
+  multas01
+  // multas01_2,
+  // multas02
 };
 
 export default async function getMultasAutomation(req, res) {
@@ -21,10 +22,9 @@ export default async function getMultasAutomation(req, res) {
     return;
   }
 
-
   // Captura o momento de início
   const startTime = new Date()
-  const formattedData = startTime.toLocaleString('pt-BR')
+  const formattedData = formatDate(startTime)
 
   console.log(`Iniciou a automação ${automationName}`);
   const id = await start(automationName, formattedData);
