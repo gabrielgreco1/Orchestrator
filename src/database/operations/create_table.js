@@ -5,6 +5,8 @@ export default async function createTable() {
     `CREATE TABLE LummaExecucoes (
       id SERIAL PRIMARY KEY,
       automacao VARCHAR(255) NOT NULL,
+	    quantidade INTEGER, 
+	    duracao_minutos INTEGER,
       data_hora_inicio TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
       data_hora_fim TIMESTAMP,
       status VARCHAR(50)  
